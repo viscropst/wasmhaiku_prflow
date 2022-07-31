@@ -1,4 +1,5 @@
-workspace.members = [
+[workspace]
+members = [
     "pr_notifier",
     "pr_processor"
 ]
