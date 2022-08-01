@@ -32,13 +32,22 @@ fn gen_tmpmsg<'a>(owned_event: &'a str) -> String {
         if is_draft.bool() {
             tmp_msg.push_str(" as a draft");
         }
+
         let is_mergable = gjson::get(owned_event, "pull_request.mergeable");
         if is_mergable.bool() {
             tmp_msg.push_str(
                 format!(
-                    "
-                , You can merge this PR by telling me 
-                \" Github PR,Merge #{}\"",
+                    ", 
+                    You can merge this PR by telling me \" Github PR,Merge #{}\"",
+                    pr_num.str()
+                )
+                .as_str(),
+            );
+        } else if is_mergable.json() == "null" {
+            tmp_msg.push_str(
+                format!(
+                    ", 
+                    You can stat this PR by telling me \" Github PR,Stat #{}\"",
                     pr_num.str()
                 )
                 .as_str(),
